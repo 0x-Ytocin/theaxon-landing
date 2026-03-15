@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE AXON</title>
+    <meta name="description" content="THE AXON — transmissions from the space between. Internet culture, neuroscience, and the signals we send into the void.">
+    <meta name="theme-color" content="#1e1e2e">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="THE AXON">
+    <meta property="og:description" content="Transmissions from the space between — internet culture, neuroscience, and the signals we send into the void.">
+    <meta property="og:type" content="website">
+
+    <!-- Favicon (lightning bolt — electrical signal) -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Neuron Background (wide screens) -->
+    <canvas id="neuronCanvas" class="neuron-bg" aria-hidden="true"></canvas>
+
+    <!-- CRT Scanline Overlay -->
+    <div class="scanlines" aria-hidden="true"></div>
+
+    <!-- VHS Overlay -->
+    <div class="vhs-overlay" aria-hidden="true">
+        <span class="vhs-rec"><span class="rec-dot">&#9679;</span> REC</span>
+        <span class="vhs-time" id="vhsTime">PM 10:46</span>
+    </div>
+
+    <!-- Main Content -->
+    <main class="page">
+
+        <!-- Hero -->
+        <header class="hero">
+            <h1 class="glitch" id="siteTitle" data-text="THE AXON">THE AXON</h1>
+            <p class="tagline" id="siteTagline">transmissions from the space between</p>
+        </header>
+
+        <!-- Quote -->
+        <figure class="hero-quote">
+            <blockquote id="siteQuote">Homesick for a place I'm not even sure exists</blockquote>
+        </figure>
+
+        <!-- Terminal Window -->
+        <section class="terminal-window" aria-label="Navigation">
+            <div class="title-bar">
+                <div class="title-bar-dots">
+                    <span class="dot dot-red"></span>
+                    <span class="dot dot-yellow"></span>
+                    <span class="dot dot-green"></span>
+                </div>
+                <span class="title-bar-text">welcome.exe</span>
+            </div>
+            <div class="window-body">
+                <p class="terminal-line">
+                    <span class="prompt">&gt;</span> connection established<span class="cursor">_</span>
+                </p>
+                <p class="terminal-line">
+                    <span class="prompt">&gt;</span> Technology &bull; culture &bull; connections
+                </p>
+                <div class="terminal-blank"></div>
+
+                <nav class="window-nav">
+                    <a href="" id="blogLink" class="btn btn-primary" target="_blank" rel="noopener">ENTER THE BLOG</a>
+                    <button class="btn btn-secondary" id="aboutBtn" type="button">ABOUT</button>
+                </nav>
+
+                <!-- Signal Pulse (axon reference) -->
+                <div class="signal-line" aria-hidden="true">
+                    <div class="signal-dot"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Hourglass Window -->
+        <section class="terminal-window" aria-label="Hourglass">
+            <div class="title-bar">
+                <div class="title-bar-dots">
+                    <span class="dot dot-red"></span>
+                    <span class="dot dot-yellow"></span>
+                    <span class="dot dot-green"></span>
+                </div>
+                <span class="title-bar-text">hourglass.exe</span>
+            </div>
+            <div class="window-body hourglass-body">
+                <pre class="hourglass-art" id="hourglassArt" aria-hidden="true"></pre>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="page-footer">
+        <p id="footerText">best viewed in netscape navigator 4.0</p>
+    </footer>
+
+    <!-- ═══ About Modal ═══ -->
+    <div class="modal-backdrop" id="modal" role="dialog" aria-modal="true" aria-label="About">
+        <div class="terminal-window modal-window">
+            <div class="title-bar">
+                <div class="title-bar-dots">
+                    <span class="dot dot-red" id="modalClose" role="button" aria-label="Close" tabindex="0"></span>
+                    <span class="dot dot-yellow"></span>
+                    <span class="dot dot-green"></span>
+                </div>
+                <span class="title-bar-text">about.exe</span>
+            </div>
+            <div class="window-body">
+                <div class="profile-header">
+                    <div class="avatar" id="profileAvatar">
+                        <span class="avatar-fallback" id="avatarFallback">OX</span>
+                    </div>
+                    <div class="profile-info">
+                        <h2 id="profileName">Oxytocin</h2>
+                        <p class="profile-handle" id="profileHandle">@0x_Ytocin</p>
+                    </div>
+                </div>
+                <p class="profile-bio" id="profileBio"></p>
+                <div class="social-links" id="socialLinks"></div>
+                <button class="btn btn-secondary btn-close-modal" id="modalCloseBtn" type="button">[ CLOSE ]</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

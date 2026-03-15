@@ -1,0 +1,601 @@
+/* ============================================
+   THE AXON — Landing Page Styles
+
+   Retro CRT / VHS aesthetic with terminal UI,
+   neon accents, and neural-signal animations.
+   ============================================ */
+
+/* ─── Reset ──────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ─── Custom Properties (defaults — overridden by config.js) */
+:root {
+  --color-primary: #ff2a6d;
+  --color-secondary: #05d9e8;
+  --color-bg: #1e1e2e;
+  --color-text: #cdd6f4;
+  --color-dim: #7f849c;
+  --color-window: #181825;
+  --color-window-border: #313244;
+  --color-title-bar: #1e1e2e;
+  --font-mono: 'VT323', 'Courier New', monospace;
+  --font-sans: 'Space Mono', monospace;
+}
+
+/* ─── Base ───────────────────────────────────── */
+html { font-size: 16px; }
+
+body {
+  font-family: var(--font-mono);
+  background: var(--color-bg);
+  color: var(--color-text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* ─── Scanlines & CRT ────────────────────────── */
+.scanlines {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+.scanlines::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    transparent 1px,
+    rgba(0, 0, 0, 0.12) 1px,
+    rgba(0, 0, 0, 0.12) 2px
+  );
+  z-index: 1;
+}
+
+.scanlines::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 50%,
+    rgba(0, 0, 0, 0.5) 100%
+  );
+  z-index: 2;
+}
+
+.scanlines.no-vignette::after { display: none; }
+
+/* ─── VHS Overlay ────────────────────────────── */
+.vhs-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 16px 24px;
+  font-family: var(--font-mono);
+  font-size: 1.1rem;
+  color: var(--color-dim);
+  z-index: 100;
+  pointer-events: none;
+}
+
+.vhs-rec {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.rec-dot {
+  color: #ff3333;
+  animation: blink 1.5s ease-in-out infinite;
+  font-size: 0.7rem;
+}
+
+.vhs-time {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.12em;
+}
+
+/* ─── Neuron Background ──────────────────────── */
+.neuron-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.55;
+  pointer-events: none;
+  mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.15) 20%, black 60%);
+  -webkit-mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.15) 20%, black 60%);
+}
+
+@media (max-width: 900px) {
+  .neuron-bg { display: none; }
+}
+
+/* ─── Page Layout ────────────────────────────── */
+.page {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 560px;
+  padding: 80px 24px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  animation: fadeIn 0.8s ease-out both;
+}
+
+/* ─── Hero ────────────────────────────────────── */
+.hero { text-align: center; }
+
+.hero h1 {
+  font-family: var(--font-mono);
+  font-size: clamp(2.8rem, 10vw, 4.5rem);
+  font-weight: 400;
+  letter-spacing: 0.25em;
+  color: var(--color-text);
+  text-shadow:
+    0 0 7px  var(--color-primary),
+    0 0 15px var(--color-primary),
+    0 0 30px var(--color-primary),
+    0 0 60px rgba(255, 42, 109, 0.25);
+  margin-bottom: 8px;
+  line-height: 1.2;
+}
+
+.tagline {
+  font-size: 1.1rem;
+  color: var(--color-dim);
+  letter-spacing: 0.15em;
+  font-style: italic;
+}
+
+/* ─── Glitch Effect ──────────────────────────── */
+.glitch { position: relative; }
+
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.glitch::before {
+  color: var(--color-secondary);
+  z-index: -1;
+  animation: glitch1 4s infinite linear alternate-reverse;
+}
+
+.glitch::after {
+  color: var(--color-primary);
+  z-index: -2;
+  animation: glitch2 3s infinite linear alternate-reverse;
+}
+
+.glitch:hover::before { animation-duration: 0.7s; }
+.glitch:hover::after  { animation-duration: 0.5s; }
+
+/* ─── Quote ──────────────────────────────────── */
+.hero-quote {
+  text-align: center;
+  margin: 0;
+}
+
+.hero-quote blockquote {
+  font-size: 1.15rem;
+  color: var(--color-text);
+  background: rgba(0, 0, 0, 0.6);
+  display: inline-block;
+  padding: 10px 20px;
+  border-left: 3px solid var(--color-primary);
+  font-style: italic;
+  letter-spacing: 0.03em;
+}
+
+/* ─── Terminal Window ────────────────────────── */
+.terminal-window {
+  width: 100%;
+  border: 1px solid var(--color-window-border);
+  background: var(--color-window);
+  box-shadow:
+    0 4px 30px rgba(0, 0, 0, 0.5),
+    0 0 20px rgba(255, 42, 109, 0.05);
+  overflow: hidden;
+}
+
+.title-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: var(--color-title-bar);
+  border-bottom: 1px solid var(--color-window-border);
+}
+
+.title-bar-dots {
+  display: flex;
+  gap: 7px;
+}
+
+.dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  cursor: default;
+}
+
+.dot-red    { background: #ff5f57; }
+.dot-yellow { background: #ffbd2e; }
+.dot-green  { background: #28c840; }
+
+.title-bar-text {
+  font-size: 0.85rem;
+  color: var(--color-dim);
+  letter-spacing: 0.05em;
+}
+
+.window-body {
+  padding: 20px 24px;
+}
+
+/* ─── Terminal Lines ─────────────────────────── */
+.terminal-line {
+  font-size: 1.2rem;
+  margin-bottom: 6px;
+  color: var(--color-dim);
+}
+
+.terminal-line .prompt {
+  color: var(--color-secondary);
+  margin-right: 8px;
+}
+
+.terminal-blank { height: 10px; }
+
+.cursor {
+  animation: blink 1s step-end infinite;
+  color: var(--color-primary);
+}
+
+/* ─── Buttons ────────────────────────────────── */
+.window-nav {
+  display: flex;
+  gap: 12px;
+  margin: 20px 0;
+  flex-wrap: wrap;
+}
+
+.btn {
+  font-family: var(--font-mono);
+  font-size: 1.15rem;
+  padding: 10px 22px;
+  border: 1px solid;
+  cursor: pointer;
+  letter-spacing: 0.15em;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.25s ease;
+  text-align: center;
+  background: transparent;
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--color-secondary);
+  outline-offset: 2px;
+}
+
+.btn-primary {
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+  text-shadow: 0 0 8px rgba(255, 42, 109, 0.4);
+  box-shadow:
+    0 0 8px  rgba(255, 42, 109, 0.15),
+    inset 0 0 8px rgba(255, 42, 109, 0.08);
+}
+
+.btn-primary:hover,
+.btn-primary:focus-visible {
+  background: var(--color-primary);
+  color: var(--color-bg);
+  text-shadow: none;
+  box-shadow: 0 0 25px rgba(255, 42, 109, 0.4);
+}
+
+.btn-secondary {
+  color: var(--color-secondary);
+  border-color: var(--color-secondary);
+  text-shadow: 0 0 8px rgba(5, 217, 232, 0.3);
+  box-shadow:
+    0 0 8px  rgba(5, 217, 232, 0.1),
+    inset 0 0 8px rgba(5, 217, 232, 0.05);
+}
+
+.btn-secondary:hover,
+.btn-secondary:focus-visible {
+  background: var(--color-secondary);
+  color: var(--color-bg);
+  text-shadow: none;
+  box-shadow: 0 0 25px rgba(5, 217, 232, 0.3);
+}
+
+/* ─── Signal Pulse (axon animation) ──────────── */
+.signal-line {
+  position: relative;
+  width: 100%;
+  height: 2px;
+  background: rgba(255, 42, 109, 0.08);
+  margin: 16px 0;
+  overflow: hidden;
+  border-radius: 1px;
+}
+
+.signal-dot {
+  position: absolute;
+  top: -2px;
+  left: -30%;
+  width: 30%;
+  height: 6px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-primary),
+    var(--color-primary),
+    transparent
+  );
+  border-radius: 3px;
+  animation: signalPulse 3.5s ease-in-out infinite;
+  box-shadow:
+    0 0 6px  var(--color-primary),
+    0 0 15px rgba(255, 42, 109, 0.4);
+}
+
+/* ─── Visitor Counter ────────────────────────── */
+.visitor-counter {
+  font-size: 0.9rem;
+  color: var(--color-dim);
+  text-align: right;
+  letter-spacing: 0.08em;
+  opacity: 0.6;
+}
+
+/* ─── Modal ──────────────────────────────────── */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 3, 15, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 24px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  backdrop-filter: blur(4px);
+}
+
+.modal-backdrop.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-window {
+  width: 100%;
+  max-width: 460px;
+  transform: translateY(20px) scale(0.97);
+  transition: transform 0.3s ease;
+}
+
+.modal-backdrop.active .modal-window {
+  transform: translateY(0) scale(1);
+}
+
+/* ─── Profile ────────────────────────────────── */
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 2px solid var(--color-primary);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 42, 109, 0.1);
+  flex-shrink: 0;
+  background-size: cover;
+  background-position: center;
+}
+
+.avatar-fallback {
+  font-size: 1.4rem;
+  color: var(--color-primary);
+  letter-spacing: 0.1em;
+  font-weight: bold;
+}
+
+.avatar.has-image .avatar-fallback {
+  display: none;
+}
+
+.profile-info h2 {
+  font-family: var(--font-mono);
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: var(--color-text);
+  letter-spacing: 0.08em;
+}
+
+.profile-handle {
+  color: var(--color-secondary);
+  font-size: 1rem;
+  letter-spacing: 0.05em;
+}
+
+.profile-bio {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--color-dim);
+  margin-bottom: 20px;
+}
+
+/* ─── Social Links ───────────────────────────── */
+.social-links {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.social-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border: 1px solid var(--color-window-border);
+  color: var(--color-text);
+  text-decoration: none;
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  letter-spacing: 0.05em;
+}
+
+.social-link:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  box-shadow: 0 0 10px rgba(255, 42, 109, 0.15);
+}
+
+.social-icon { font-size: 1.1rem; }
+
+.btn-close-modal {
+  width: 100%;
+  margin-top: 8px;
+}
+
+/* ─── Hourglass ──────────────────────────────── */
+.hourglass-body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12px 16px;
+}
+
+.hourglass-art {
+  font-family: 'Courier New', 'Consolas', 'DejaVu Sans Mono', monospace;
+  font-size: 0.95rem;
+  line-height: 1.25;
+  color: var(--color-secondary);
+  text-shadow: 0 0 5px rgba(5, 217, 232, 0.3);
+  margin: 0;
+  user-select: none;
+  letter-spacing: 0;
+}
+
+/* ─── Footer ─────────────────────────────────── */
+.page-footer {
+  position: relative;
+  z-index: 1;
+  padding: 16px 24px 32px;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--color-dim);
+  opacity: 0.4;
+  letter-spacing: 0.08em;
+}
+
+/* ─── Keyframes ──────────────────────────────── */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes blink {
+  0%, 49%  { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+@keyframes glitch1 {
+  0%   { clip-path: inset(42% 0 58% 0); transform: translate(-3px, 0); }
+  10%  { clip-path: inset(12% 0 75% 0); transform: translate(2px, 0); }
+  20%  { clip-path: inset(85% 0  5% 0); transform: translate(-1px, 0); }
+  30%  { clip-path: inset(30% 0 48% 0); transform: translate(3px, 0); }
+  40%  { clip-path: inset(66% 0 20% 0); transform: translate(-2px, 0); }
+  50%  { clip-path: inset( 8% 0 80% 0); transform: translate(1px, 0); }
+  60%  { clip-path: inset(55% 0 32% 0); transform: translate(-3px, 0); }
+  70%  { clip-path: inset(22% 0 65% 0); transform: translate(2px, 0); }
+  80%  { clip-path: inset(78% 0 12% 0); transform: translate(-1px, 0); }
+  90%  { clip-path: inset(45% 0 40% 0); transform: translate(3px, 0); }
+  100% { clip-path: inset(92% 0  2% 0); transform: translate(-2px, 0); }
+}
+
+@keyframes glitch2 {
+  0%   { clip-path: inset(65% 0 25% 0); transform: translate(2px, 0); }
+  15%  { clip-path: inset(18% 0 70% 0); transform: translate(-3px, 0); }
+  30%  { clip-path: inset(80% 0  8% 0); transform: translate(1px, 0); }
+  45%  { clip-path: inset(35% 0 52% 0); transform: translate(-2px, 0); }
+  60%  { clip-path: inset( 5% 0 88% 0); transform: translate(3px, 0); }
+  75%  { clip-path: inset(50% 0 38% 0); transform: translate(-1px, 0); }
+  90%  { clip-path: inset(72% 0 15% 0); transform: translate(2px, 0); }
+  100% { clip-path: inset(28% 0 60% 0); transform: translate(-3px, 0); }
+}
+
+@keyframes signalPulse {
+  0%   { left: -30%; opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { left: 100%; opacity: 0; }
+}
+
+/* ─── Responsive ─────────────────────────────── */
+@media (max-width: 480px) {
+  .page {
+    padding: 70px 16px 32px;
+    gap: 24px;
+  }
+  .window-body { padding: 16px; }
+  .window-nav { flex-direction: column; }
+  .btn { width: 100%; text-align: center; }
+  .vhs-overlay { padding: 12px 16px; font-size: 0.9rem; }
+  .hero-quote blockquote { font-size: 1rem; padding: 8px 14px; }
+  .profile-header { flex-direction: column; text-align: center; }
+  .social-links { justify-content: center; }
+}
+
+/* ─── Reduced Motion ─────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .scanlines::before { opacity: 0.05; }
+  .glitch::before,
+  .glitch::after { display: none; }
+}
